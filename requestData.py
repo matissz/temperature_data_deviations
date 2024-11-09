@@ -1,8 +1,8 @@
 import yr_weather
 
-sitename  = {
-    "GitHub":"matissz"
-}
+# sitename  = {
+#     "GitHub":"matissz"
+# }
 headers = {
     "User-Agent": "matiss.zigalvis@gmail.com"
 }
@@ -17,13 +17,26 @@ def main():
     
     timeseries_list = forcast._timeseries
 
+# select only next three days, as they have forcast for each hour
+# current day + 2 
 
+# create new dictionalry wiht values key as date, value as air_temperature
+# create seperate new dict that colects current temp reading and stores key as date, value as  current temp
+
+# create deviations output where if defiation is bigger than 2 degrees marke deviation value in read color
+
+
+# create schedual job to get current temp vale each hour and store the valuw in above seperate dictionalry
+
+# sepreat the code - get currnet temp readigng / - get forcast reading  / - scheduele temp update / - print deviation values
+
+# if currnet temp is below 7 degrees ask user to adjust the heating! 
 
     for item in timeseries_list:
         for key, value in item.items():
-            if key == "time":
+            if key == "time":  
                 print()
-                print(f"{key}: {value}")    
+                print(f"{key}: {value}")    # vlaue contians time value, that is str, have to adjust the time format
             if key == "data":
                     for data_key, data_item  in value.items():
                         if data_key == "instant":
