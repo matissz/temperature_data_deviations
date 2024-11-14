@@ -1,18 +1,20 @@
 import yr_weather
 import datetime
+import uuid
 
-headers = {"User-Agent": "matiss.zigalvis@gmail.com"}
+
 
 
 def main():
+
+    headers = {"User-Agent": "matiss.zigalvis@gmail.com"}
     my_client = yr_weather.Locationforecast(headers=headers)
 
     air_temp = my_client.get_air_temperature(56.94, 24.10)
     forcast = my_client.get_forecast(56.94, 24.10)
-
     timeseries_list = forcast._timeseries
 
-    forcastDic = {"datetime": "", "air_temperature": ""}
+    forcastDic = {}
 
     # select only next three days, as they have forcast for each hour
     # current day + 2
@@ -34,7 +36,8 @@ def main():
     for item in timeseries_list:
         currnetDay = None
         dayAfterTomorrow = None
-        
+        unique_id = str(uuid.uuid4())
+
         for key, value in item.items():
             
             if key == "time":                
@@ -48,20 +51,25 @@ def main():
                 
             ##datetime manipulation end            
                         
-            if currnetDay <= dayAfterTomorrow and key =="time":
-                print()     
-                print(f"{key}: {datetimeObj}") 
+            # if currnetDay <= dayAfterTomorrow and key =="time":
+            #     print()     
+            #     print(f"{key}: {datetimeObj}") 
                         
             if currnetDay <= dayAfterTomorrow and key == "data":
                     for data_key, data_item in value.items():
                         if data_key == "instant":
                             for instant_key, instant_item in data_item.items():
                                 if instant_key == "details":
-                                    for (details_key, details_item) in instant_item.items():
+                                    for details_key, details_item in instant_item.items():
                                         if details_key == "air_temperature":
-                                            print(f"{details_key} : {details_item} | current temp:{air_temp} | deviation {details_item - air_temp:.1f}")
-            
+                                            # print(f"{details_key} : {details_item} | current temp:{air_temp} | deviation {details_item - air_temp:.1f}")
+                                            forcastDic[unique_id] = {"time ": datetimeObj, details_key : details_item}
 
+
+
+
+    # for key, value in forcastDic.items():
+    #     print(f"{key}: {value}")
 
 if __name__ == "__main__":
     main()
