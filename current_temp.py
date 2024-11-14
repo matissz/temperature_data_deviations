@@ -1,3 +1,4 @@
+import datetime
 import yr_weather
 from forcast import get_forcastData
 
@@ -18,14 +19,20 @@ def temp_now() -> float:
 def check_temperature():
     future_forcast =  get_forcastData()
     current_temp = temp_now()
+    currentDateTime = datetime.datetime.today()
+    currentDateTime = currentDateTime.replace(minute=0, second=0, microsecond=0)
+    
+
+    
 
     print(f"Current temperateure: {current_temp}")
 
     for unique_id, data in future_forcast.items():
         forecast_time = data["time "]
         forecast_temp = data["air_temperature"]
-        print(f"Forecast Time: {forecast_time}, Forecast Temperature: {forecast_temp}")
-        print(f"Deviation from Forecast: {forecast_temp - current_temp:.1f}")
+        if forecast_time == currentDateTime:
+            print(f"Forecast Time: {forecast_time}, Forecast Temperature: {forecast_temp}")
+            print(f"Deviation from Forecast: {forecast_temp - current_temp:.1f}")
 
 
 
